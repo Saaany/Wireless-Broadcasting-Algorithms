@@ -1,0 +1,20 @@
+Improved Self-Pruning Broadcasting Experiments
+Generated on: 2026-01-23T14:57:49.520766500
+
+Java Version: 11.0.11
+Runs per configuration: 10
+Deployment area: 625.0 x 625.0 m
+
+Node counts:
+  - 100
+  - 200
+  - 350
+  - 400
+  - 500
+
+Transmission ranges (m):
+  - 125.0
+  - 150.0
+  - 175.0
+  - 200.0
+  - 225.0

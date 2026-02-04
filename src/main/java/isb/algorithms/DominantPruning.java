@@ -1,0 +1,51 @@
+package isb.algorithms;
+
+import isb.model.Node;
+import java.util.*;
+
+public class DominantPruning {
+
+    public static Set<Integer> computeForwardList(
+            Node u, Node prev, Map<Integer, Node> net) {
+
+        Set<Integer> U = new HashSet<>();
+        for (int vId : u.getNeighbors()) {
+            Node v = net.get(vId);
+            if (v == null) continue;
+
+            U.addAll(v.getNeighbors()); // N^2(u)
+        }
+        U.removeAll(u.getNeighbors()); // N^2(u) - N(u)
+        if(prev != null) U.removeAll(prev.getNeighbors()); //N^2(u)- N(u) - N(prev)
+
+        Set<Integer> B = new HashSet<>(u.getNeighbors());
+        if(prev!= null) B.removeAll(prev.getNeighbors());
+        B.remove(u.id);
+
+        Set<Integer> F = new HashSet<>();
+
+        while (!U.isEmpty() && !B.isEmpty()) {
+            int best = -1;
+            int maxCover = -1;
+
+            for (int w : B) {
+                Set<Integer> cover =
+                        new HashSet<>(net.get(w).getNeighbors());
+                cover.retainAll(U);
+
+                if (cover.size() > maxCover) {
+                    maxCover = cover.size();
+                    best = w;
+                }
+            }
+
+            if (maxCover <= 0) break;
+
+            F.add(best);
+            U.removeAll(net.get(best).getNeighbors());
+            B.remove(best);
+        }
+
+        return F;
+    }
+}
